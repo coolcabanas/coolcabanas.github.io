@@ -1,0 +1,146 @@
+<html>
+  <head>
+    <style>
+      .center{
+	 position: fixed;
+         left:50%;
+	 top:50%;
+	 font-size:300%;
+	 margin-top:-100px;
+	 margin-left:-200px;
+      }
+
+      .input{
+         font-size:100%;
+      }
+
+      .info{
+	font-size:30%;
+      }
+    </style>
+    <script>
+      var current_q = 1;
+      var good_a = 0;
+      var total_q = 20; 
+      var game_started = 0;
+      var from = 0;
+      var to = 0;
+
+      function generate_numbers() {
+	if (to < from) { to = from};
+	var a = Math.floor(from + Math.random() * (to - from + 1));
+	var b =  Math.floor(Math.random() * 10);
+        var swap = Math.random() < 0.5 ? true : false;
+	if (swap) {
+	  b = [a, a = b][0];
+	}
+
+        document.getElementById("first").textContent = a; 
+	document.getElementById("second").textContent = b; 
+      }
+
+      function submitted() {
+	if (game_started ==0 ) {
+          clear_answer();
+	  return;
+	}
+
+	var a = Number(document.getElementById("first").textContent);
+	var b = Number(document.getElementById("second").textContent);
+	var ans = Number(document.getElementById("answer").value);
+	var correct_ans = a * b;
+	document.getElementById("status").textContent = ans == correct_ans ? "Good" : "Wrong. Should be " + correct_ans;
+	good_a = good_a + (ans == correct_ans ? 1 : 0);
+	
+	if (current_q == total_q) {
+	  document.getElementById("status").textContent = "The END. Result: " + good_a + " out of " + total_q;
+	  game_started = 0;
+	} else {
+          current_q = current_q + 1;
+	  clear_answer();
+	  generate_numbers();
+	}
+	update_info();
+      } 
+
+      function pageload() {
+        generate_numbers();
+      }
+
+      function update_info() {
+	var text = "";
+	if (game_started == 0) {
+	  text = "Game is not started. Please press 'Start game'.";
+        } else {
+          text = "Question " + current_q + " out of " + total_q;
+	}
+	document.getElementById("info").textContent = text;
+      }
+
+      function clear_answer() {
+	document.getElementById("answer").value = "";
+      }
+
+      function start_game() {
+	total_q = Number(document.getElementById("qnum").value);
+	from = Number(document.getElementById("from").value);
+	to = Number(document.getElementById("to").value);
+	current_q = 1;
+	good_a = 0;
+	game_started = 1;
+	generate_numbers();
+	clear_answer();
+	update_info();
+	document.getElementById("answer").focus();
+ 
+      }
+    </script>
+  </head>
+  <body onload="pageload()">
+    <form onsubmit="submitted();return false">
+    <p><center>
+      Number of questions
+      <select id="qnum">
+	 <option value="10">10</option>
+	 <option value="20" selected>20</option>
+	 <option value="30">30</option>
+	 <option value="40">40</option>
+	 <option value="50">50</option>
+      </select> 
+      from 
+      <select id="from">
+	 <option value="2">2</option>
+	 <option value="3" selected>3</option>
+	 <option value="4">4</option>
+	 <option value="5">5</option>
+	 <option value="6">6</option>
+	 <option value="7">7</option>
+	 <option value="8">8</option>
+	 <option value="9">9</option>
+      </select> 
+      to 
+      <select id="to">
+	 <option value="2">2</option>
+         <option value="3" selected>3</option>
+         <option value="4">4</option>
+         <option value="5">5</option>
+         <option value="6">6</option>
+         <option value="7">7</option>
+         <option value="8">8</option>
+         <option value="9">9</option>
+      </select>
+      <input type="button" value="Start game" onclick="start_game()">
+    </center></p>
+    <p class="center">
+      <span id="status"></span><br/>
+      <span id="first">1</span>
+      x
+      <span id="second">1</span>
+      =
+      <input class="input" type="text" id="answer" size="4" autofocus/>
+      <br/><br/>
+      <span class="info" id="info">Game is not started. Please press "Start game".</span>
+    </p>
+    </form>
+  </body>
+</html>
