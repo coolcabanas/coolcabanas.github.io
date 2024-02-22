@@ -61,6 +61,7 @@
 	  generate_numbers();
 	}
 	update_info();
+	set_focus();
       } 
 
       function pageload() {
@@ -81,6 +82,10 @@
 	document.getElementById("answer").value = "";
       }
 
+      function set_focus() {
+        document.getElementById("answer").focus();
+      }
+
       function start_game() {
 	total_q = Number(document.getElementById("qnum").value);
 	from = Number(document.getElementById("from").value);
@@ -91,8 +96,7 @@
 	generate_numbers();
 	clear_answer();
 	update_info();
-	document.getElementById("answer").focus();
- 
+	set_focus();
       }
     </script>
   </head>
