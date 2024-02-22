@@ -97,7 +97,7 @@
     </script>
   </head>
   <body onload="pageload()">
-    <form onsubmit="submitted();return false">
+    <form onsubmit="return false">
     <p><center>
       Number of questions
       <select id="qnum">
@@ -131,6 +131,8 @@
       </select>
       <input type="button" value="Start game" onclick="start_game()">
     </center></p>
+    </form>
+    <form onsubmit="submitted();return false">
     <p class="center">
       <span id="status"></span><br/>
       <span id="first">1</span>
@@ -138,6 +140,7 @@
       <span id="second">1</span>
       =
       <input class="input" type="text" id="answer" size="4" pattern="[0-9]*" autofocus/>
+      <input class="input" type="submit" value="OK">
       <br/><br/>
       <span class="info" id="info">Game is not started. Please press "Start game".</span>
     </p>
